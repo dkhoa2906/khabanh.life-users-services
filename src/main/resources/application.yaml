@@ -11,7 +11,12 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       data-source-properties:
-        sslmode: require
+        sslmode: allow
+
+#  security:
+#    user:
+#      name: admin
+#      password: test
 
   jpa:
     hibernate:
