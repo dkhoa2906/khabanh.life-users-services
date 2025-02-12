@@ -11,19 +11,23 @@ import life.khabanh.usersservices.dto.response.ApiResponse;
 @ControllerAdvice
 public class GlobalExceptionHandler  {
 
-    @ExceptionHandler(value = RuntimeException.class)
-    ResponseEntity<ApiResponse> handleRuntimeException(RuntimeException e) {
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setCode(1001);
-        apiResponse.setMessage(e.getMessage());
+    @ExceptionHandler(value = Exception.class)
+    ResponseEntity<ApiResponse<String>> handlingRuntimeException(RuntimeException exception){
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .code(ErrorCode.UNCATEGORIZED_EXCEPTION.getCode())
+                .message(ErrorCode.UNCATEGORIZED_EXCEPTION.getMessage())
+                .result(exception.getMessage())
+                .build();
         return ResponseEntity.badRequest().body(apiResponse);
     }
 
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
-     ResponseEntity<ApiResponse> handleValidation(MethodArgumentNotValidException e) {
-        ApiResponse apiResponse = new ApiResponse();
-        apiResponse.setCode(1001);
-        apiResponse.setMessage(e.getMessage());
+    @ExceptionHandler(value = AppException.class)
+    ResponseEntity<ApiResponse<Void>> handlingAppException(AppException exception){
+        ErrorCode errorCode = exception.getErrorCode();
+        ApiResponse<Void> apiResponse = ApiResponse.<Void>builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .build();
         return ResponseEntity.badRequest().body(apiResponse);
     }
 }

@@ -1,4 +1,4 @@
-package life.khabanh.usersservices.dto.response;
+package life.khabanh.usersservices.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -6,17 +6,13 @@ import lombok.experimental.FieldDefaults;
 import java.time.LocalDate;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String id;
-    String email;
+public class UserUpdateRequest {
     String password;
     String firstName;
     String lastName;
     LocalDate dateOfBirth;
-    String inviteCode;
-    int credit;
 }

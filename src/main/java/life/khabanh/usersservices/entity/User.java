@@ -27,4 +27,6 @@ public class User {
     String lastName;
     LocalDate dateOfBirth;
     String inviteCode;
+
+    int credit = 0;
 }
