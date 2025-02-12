@@ -15,11 +15,6 @@ public enum ErrorCode  {
 
     // VALIDATION ERRORS
     INVALID_REQUEST(4001, "Invalid request data"),
-    INVALID_EMAIL(4002, "Invalid email format"),
-    INVALID_PASSWORD(4003, "Password must be at least 8 characters"),
-    INVALID_PHONE_NUMBER(4004, "Invalid phone number"),
-    INVALID_DATE(4005, "Invalid date"),
-    INVALID_INVITE_CODE(4006, "Invalid key"),
 
     // USER & AUTHENTICATION ERRORS
     USER_EXISTED(4100, "User already exists"),

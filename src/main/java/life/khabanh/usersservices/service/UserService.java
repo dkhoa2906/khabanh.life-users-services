@@ -2,7 +2,6 @@ package life.khabanh.usersservices.service;
 
 import life.khabanh.usersservices.dto.request.UserCreationRequest;
 import life.khabanh.usersservices.dto.request.UserUpdateRequest;
-import life.khabanh.usersservices.dto.response.ApiResponse;
 import life.khabanh.usersservices.dto.response.UserResponse;
 import life.khabanh.usersservices.entity.User;
 import life.khabanh.usersservices.exception.AppException;
@@ -11,7 +10,6 @@ import life.khabanh.usersservices.mapper.UserMapper;
 import life.khabanh.usersservices.repository.UserRepository;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -33,8 +31,19 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
+    public UserResponse getUser(String id) {
+        return userMapper.toUserResponse(userRepository.findById(id).
+                orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
+        userMapper.updateUser(user, request);
+        return userMapper.toUserResponse(userRepository.save(user));
+    }
+
+    public void deleteUser(String id) {
+        userRepository.deleteById(id);
     }
 }

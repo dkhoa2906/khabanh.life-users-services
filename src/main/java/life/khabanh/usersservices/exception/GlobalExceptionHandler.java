@@ -1,7 +1,6 @@
 package life.khabanh.usersservices.exception;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -30,4 +29,17 @@ public class GlobalExceptionHandler  {
                 .build();
         return ResponseEntity.badRequest().body(apiResponse);
     }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    ResponseEntity<ApiResponse<String>> handleValidationExceptions(MethodArgumentNotValidException exception) {
+        ErrorCode errorCode = ErrorCode.INVALID_REQUEST;
+        ApiResponse<String> apiResponse = ApiResponse.<String>builder()
+                .code(errorCode.getCode())
+                .message(errorCode.getMessage())
+                .result("Validation failed: " + exception.getBindingResult().getAllErrors().getFirst().getDefaultMessage())
+                .build();
+        return ResponseEntity.badRequest().body(apiResponse);
+    }
+
+
 }
