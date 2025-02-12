@@ -2,6 +2,8 @@ package life.khabanh.usersservices.controller;
 
 import jakarta.validation.Valid;
 import life.khabanh.usersservices.dto.request.UserCreationRequest;
+import life.khabanh.usersservices.dto.response.ApiResponse;
+import life.khabanh.usersservices.dto.response.UserResponse;
 import life.khabanh.usersservices.entity.User;
 import life.khabanh.usersservices.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +17,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/new-user")
-    User createUser(@RequestBody @Valid  UserCreationRequest request) {
+    ApiResponse<UserResponse> createUser(@RequestBody @Valid  UserCreationRequest request) {
         return userService.createUser(request);
     }
 

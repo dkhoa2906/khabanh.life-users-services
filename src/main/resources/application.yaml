@@ -13,11 +13,6 @@ spring:
       data-source-properties:
         sslmode: allow
 
-#  security:
-#    user:
-#      name: admin
-#      password: test
-
   jpa:
     hibernate:
       ddl-auto: update
@@ -26,3 +21,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
+
+springdoc:
+  api-docs:
+    enabled: true
