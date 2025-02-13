@@ -22,11 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.text.ParseException;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.Date;
+import java.util.StringJoiner;
 
 @Service
 @RequiredArgsConstructor
@@ -45,7 +48,7 @@ public class AuthenticationService {
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword()))
             throw new AppException(ErrorCode.INCORRECT_PASSWORD);
 
-        String token = generateToken(request.getEmail());
+        String token = generateToken(user);
 
         return AuthenticationResponse.builder()
                 .isAuthenticated(true)
@@ -67,13 +70,14 @@ public class AuthenticationService {
                 .build();
     }
 
-    String generateToken(String email) {
+    String generateToken(User user) {
         JWSHeader header = new JWSHeader(JWSAlgorithm.HS512);
         JWTClaimsSet jwtClaimsSet = new JWTClaimsSet.Builder()
-                .subject(email)
+                .subject(user.getEmail())
                 .issuer("khabanh.life")
                 .issueTime(new Date())
                 .expirationTime(new Date(Instant.now().plus(1, ChronoUnit.HOURS).toEpochMilli()))
+                .claim("scope", buildScope(user))
                 .build();
         Payload payload = new Payload(jwtClaimsSet.toJSONObject());
         JWSObject jwsObject = new JWSObject(header, payload);
@@ -86,5 +90,14 @@ public class AuthenticationService {
             log.error("Cannot create token");
             throw new RuntimeException(e);
         }
+    }
+
+    String buildScope(User user) {
+        StringJoiner stringJoiner = new StringJoiner(" ");
+
+        if (!CollectionUtils.isEmpty(user.getRoles()))
+            user.getRoles().forEach(stringJoiner::add);
+
+        return stringJoiner.toString();
     }
 }

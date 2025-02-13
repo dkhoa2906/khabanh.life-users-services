@@ -1,0 +1,15 @@
+package life.khabanh.usersservices.dto.request;
+
+import lombok.*;
+import lombok.experimental.FieldDefaults;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class InviteCodeCreationRequest {
+    String code;
+    String type;
+    int creditAdd;
+}

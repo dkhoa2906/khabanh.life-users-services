@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,6 +28,8 @@ public class User {
     String lastName;
     LocalDate dateOfBirth;
     String inviteCode;
+
+    Set<String> roles;
 
     int credit = 0;
 }
