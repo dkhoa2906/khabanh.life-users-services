@@ -8,12 +8,14 @@ import life.khabanh.usersservices.dto.response.UserResponse;
 import life.khabanh.usersservices.service.UserService;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserController {
+    @Autowired
     UserService userService;
 
     @PostMapping("/new")
