@@ -19,7 +19,10 @@ public enum ErrorCode  {
     // USER & AUTHENTICATION ERRORS
     USER_EXISTED(4100, "User already exists"),
     USER_NOT_EXISTED(4101, "User does not exist"),
-    INCORRECT_PASSWORD(4102, "Incorrect password");
+    INCORRECT_PASSWORD(4102, "Incorrect password"),
+
+    // ADMIN ERRORS
+    INVITE_CODE_EXISTED(4201, "Invite code already exists");
 
     final int code;
     final String message;

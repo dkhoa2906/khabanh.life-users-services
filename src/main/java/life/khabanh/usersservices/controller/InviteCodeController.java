@@ -2,8 +2,11 @@ package life.khabanh.usersservices.controller;
 
 import life.khabanh.usersservices.dto.request.InviteCodeCreationRequest;
 import life.khabanh.usersservices.dto.response.ApiResponse;
+import life.khabanh.usersservices.dto.response.InviteCodeResponse;
 import life.khabanh.usersservices.entity.InviteCode;
+import life.khabanh.usersservices.mapper.InviteCodeMapper;
 import life.khabanh.usersservices.repository.InviteCodeRepository;
+import life.khabanh.usersservices.service.InviteCodeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -14,21 +17,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/admin")
+@RequestMapping("/invite-code")
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-public class AdminController {
-    InviteCodeRepository inviteCodeRepository;
+public class InviteCodeController {
+    InviteCodeService inviteCodeService;
 
-    @PostMapping("/invite-code")
-    public ApiResponse<InviteCode> createInviteCode(@RequestBody InviteCodeCreationRequest request) {
-        InviteCode inviteCode = InviteCode.builder()
-                .code(request.getCode())
-                .type(request.getType())
-                .creditAdd(request.getCreditAdd())
-                .build();
-
-        return ApiResponse.<InviteCode>builder()
-                .result(inviteCodeRepository.save(inviteCode))
+    @PostMapping("/new")
+    public ApiResponse<InviteCodeResponse> createInviteCode(@RequestBody InviteCodeCreationRequest request) {
+        return ApiResponse.<InviteCodeResponse>builder()
+                .result(inviteCodeService.createInviteCode(request))
                 .build();
     }
 }
