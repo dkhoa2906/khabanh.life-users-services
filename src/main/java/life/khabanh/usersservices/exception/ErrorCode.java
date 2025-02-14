@@ -20,6 +20,7 @@ public enum ErrorCode  {
     USER_EXISTED(4100, "User already exists"),
     USER_NOT_EXISTED(4101, "User does not exist"),
     INCORRECT_PASSWORD(4102, "Incorrect password"),
+    UNAUTHENTICATED(4103, "Unauthenticated"),
 
     // ADMIN ERRORS
     INVITE_CODE_EXISTED(4201, "Invite code already exists");
