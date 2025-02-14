@@ -19,9 +19,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +38,7 @@ public class UserService {
             throw new AppException(ErrorCode.USER_EXISTED);
 
         User user = userMapper.toUser(request);
+        user.setDateOfCreation(LocalDate.now());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         HashSet<String> roles = new HashSet<>();

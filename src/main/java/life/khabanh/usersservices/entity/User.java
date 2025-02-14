@@ -28,7 +28,7 @@ public class User {
     String lastName;
     LocalDate dateOfBirth;
     String inviteCode;
-
+    LocalDate dateOfCreation;
     Set<String> roles;
 
     int credit = 0;

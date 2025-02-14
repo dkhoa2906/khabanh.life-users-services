@@ -4,6 +4,7 @@ import com.nimbusds.jose.JOSEException;
 import life.khabanh.usersservices.dto.request.AuthenticationRequest;
 import life.khabanh.usersservices.dto.request.IntrospectRequest;
 import life.khabanh.usersservices.dto.request.LogOutRequest;
+import life.khabanh.usersservices.dto.request.TokenRefreshRequest;
 import life.khabanh.usersservices.dto.response.ApiResponse;
 import life.khabanh.usersservices.dto.response.AuthenticationResponse;
 import life.khabanh.usersservices.dto.response.IntrospectResponse;
@@ -20,7 +21,7 @@ import java.text.ParseException;
 
 @RestController
 @RequestMapping("/auth")
-@RequiredArgsConstructor 
+@RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class AuthenticationController {
     AuthenticationService authenticationService;
@@ -40,8 +41,16 @@ public class AuthenticationController {
                 .build();
     }
 
+    @PostMapping("/refresh")
+    ApiResponse<AuthenticationResponse> refresh(@RequestBody TokenRefreshRequest request)
+            throws ParseException, JOSEException {
+        return ApiResponse.<AuthenticationResponse>builder()
+                .result(authenticationService.refreshToken(request))
+                .build();
+    }
+
     @PostMapping("/logout")
-    ApiResponse<String> logout(@RequestBody LogOutRequest request) throws ParseException {
+    ApiResponse<String> logout(@RequestBody LogOutRequest request) throws ParseException, JOSEException {
         return ApiResponse.<String>builder()
                 .result(authenticationService.logout(request))
                 .build();
