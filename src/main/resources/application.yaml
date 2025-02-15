@@ -24,12 +24,9 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: true
 
-jwt:
-  valid-duration: 60
-  refreshable-duration: 120
-
 springdoc:
   api-docs:
-    enabled:
+    enabled: true
   swagger-ui:
+    enabled: true
     path: /swagger-ui.html

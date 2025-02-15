@@ -70,6 +70,7 @@ public class UserService {
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
+    @PreAuthorize("@userSecurity.isOwner(#id)")
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
@@ -77,11 +78,12 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    public String deleteUser(String id) {
+    @PreAuthorize("@userSecurity.isOwner(#id)")
+    public UserResponse deleteUser(String id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         userRepository.deleteById(id);
-        return "User " + user.getFirstName() + " " + user.getLastName() + " has been deleted.";
+        return userMapper.toUserResponse(user);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

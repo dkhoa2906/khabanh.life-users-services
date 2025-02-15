@@ -12,6 +12,8 @@ public enum ErrorCode  {
 
     // GENERAL ERRORS
     UNCATEGORIZED_EXCEPTION(5000, "Uncategorized error. Details in the result section"),
+    MISSING_REQUEST_BODY(5001, "Request body is missing"),
+    MISSING_REQUIRED_FIELDS(5002, "Missing required field(s)"),
 
     // VALIDATION ERRORS
     INVALID_REQUEST(4001, "Invalid request data"),

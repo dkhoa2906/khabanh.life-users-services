@@ -1,9 +1,8 @@
-package life.khabanh.usersservices.configuration;
+package life.khabanh.usersservices.component;
 
 import com.nimbusds.jose.JOSEException;
 import life.khabanh.usersservices.dto.request.IntrospectRequest;
 import life.khabanh.usersservices.service.AuthenticationService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;

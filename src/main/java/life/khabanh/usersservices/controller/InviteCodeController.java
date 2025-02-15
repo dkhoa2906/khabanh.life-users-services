@@ -1,11 +1,8 @@
 package life.khabanh.usersservices.controller;
 
 import life.khabanh.usersservices.dto.request.InviteCodeCreationRequest;
-import life.khabanh.usersservices.dto.response.ApiResponse;
+import life.khabanh.usersservices.dto.response.ApiFormResponse;
 import life.khabanh.usersservices.dto.response.InviteCodeResponse;
-import life.khabanh.usersservices.entity.InviteCode;
-import life.khabanh.usersservices.mapper.InviteCodeMapper;
-import life.khabanh.usersservices.repository.InviteCodeRepository;
 import life.khabanh.usersservices.service.InviteCodeService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +20,8 @@ public class InviteCodeController {
     InviteCodeService inviteCodeService;
 
     @PostMapping("/new")
-    public ApiResponse<InviteCodeResponse> createInviteCode(@RequestBody InviteCodeCreationRequest request) {
-        return ApiResponse.<InviteCodeResponse>builder()
+    public ApiFormResponse<InviteCodeResponse> createInviteCode(@RequestBody InviteCodeCreationRequest request) {
+        return ApiFormResponse.<InviteCodeResponse>builder()
                 .result(inviteCodeService.createInviteCode(request))
                 .build();
     }
