@@ -9,7 +9,11 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       data-source-properties:
-        sslmode: allow
+        sslmode: disable
+      maximum-pool-size: 10
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
 
   jpa:
     hibernate:
@@ -26,4 +30,6 @@ jwt:
 
 springdoc:
   api-docs:
-    enabled: true
+    enabled:
+  swagger-ui:
+    path: /swagger-ui.html

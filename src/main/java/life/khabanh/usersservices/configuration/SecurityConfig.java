@@ -39,7 +39,8 @@ public class SecurityConfig {
             "/auth/token",
             "/auth/introspect",
             "/auth/refresh",
-            "/auth/logout"
+            "/auth/logout",
+            "/invite-code/new"
     };
 
     CustomJwtDecode customJwtDecode;

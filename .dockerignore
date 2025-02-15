@@ -1,0 +1,8 @@
+target/*
+!target/*.jar
+
+*.jar
+*.war
+*.class
+*.log
+node_modules/
