@@ -25,8 +25,10 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.NonFinal;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -166,10 +168,16 @@ public class AuthenticationService {
         if (isExpired || !isVerified)
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
-        if (invalidatedTokenRepository.existsById(signedJWT.getJWTClaimsSet().getJWTID()))
+        if (isTokenRevoked(token))
             throw new AppException(ErrorCode.UNAUTHENTICATED);
 
     }
+
+    public boolean isTokenRevoked(String token) throws ParseException {
+        String tokenId = SignedJWT.parse(token).getJWTClaimsSet().getJWTID();
+        return invalidatedTokenRepository.existsById(tokenId);
+    }
+
 
     void blockToken(String token) throws ParseException, JOSEException {
         SignedJWT signedJWT = SignedJWT.parse(token);

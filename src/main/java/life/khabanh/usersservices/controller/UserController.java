@@ -11,6 +11,7 @@ import life.khabanh.usersservices.dto.request.UserCreationRequest;
 import life.khabanh.usersservices.dto.request.UserUpdateRequest;
 import life.khabanh.usersservices.dto.response.ApiFormResponse;
 import life.khabanh.usersservices.dto.response.UserResponse;
+import life.khabanh.usersservices.mapper.UserMapper;
 import life.khabanh.usersservices.service.UserService;
 import life.khabanh.usersservices.wrapper.UserResponseWrapper;
 import lombok.AccessLevel;
@@ -27,6 +28,7 @@ import java.util.List;
 @Tag(name = "User Controller", description = "Handles user management operations such as creation, retrieval, update, and deletion.")
 public class UserController {
     UserService userService;
+    UserMapper userMapper;
 
 
 
@@ -87,7 +89,7 @@ public class UserController {
                     responseCode = "401", description = "Unauthorized access",
                     content = @Content(mediaType = "application/json"))
     })
-    @GetMapping("/{userId}")
+    @GetMapping("/id/{userId}")
     public ApiFormResponse<UserResponse> getUser(@PathVariable("userId") String id) {
         return ApiFormResponse.<UserResponse>builder()
                 .result(userService.getUser(id))

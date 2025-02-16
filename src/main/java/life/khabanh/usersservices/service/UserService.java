@@ -66,11 +66,21 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    @PostAuthorize("returnObject.email == authentication.name or hasRole('ADMIN')")
+//    @PostAuthorize("(returnObject.email == authentication.name) or hasRole('ADMIN')")
+//    public UserResponse getUser(String id) {
+//        return userMapper.toUserResponse(userRepository.findById(id)
+//                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+//    }
+
     public UserResponse getUser(String id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println("Authenticated User: " + authentication.getName()); // Debug
+
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
+
+
 
     @PostAuthorize("returnObject.email == authentication.name")
     public UserResponse getCurrentUser() {

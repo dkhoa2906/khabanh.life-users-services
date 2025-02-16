@@ -38,12 +38,10 @@ public class CustomJwtDecode implements JwtDecoder {
     @Override
     public Jwt decode(String token) throws JwtException {
         try {
-            var response = authenticationService.introspect(IntrospectRequest.builder()
-                    .token(token)
-                    .build());
+            var response = authenticationService.introspect(IntrospectRequest.builder().token(token).build());
 
-            if (!response.isValid()) {
-                throw new JwtException("Token invalid");
+            if (!response.isValid() || authenticationService.isTokenRevoked(token)) {
+                throw new JwtException("Token invalid or revoked");
             }
         } catch (JOSEException | ParseException e) {
             throw new JwtException("Error during token introspection: " + e.getMessage());

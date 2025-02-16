@@ -10,16 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class HairSwapRequest {
+public class ImageGenerateRequest {
     @NotNull
-    MultipartFile face_image;
+    MultipartFile faceImage;
 
     @NotNull
-    MultipartFile hair_shape;
+    MultipartFile hairShape;
 
     @NotNull
-    MultipartFile hair_color;
-
-    @NotNull
-    String token;
+    MultipartFile hairColor;
 }
