@@ -61,7 +61,7 @@ public class SecurityConfig {
                         jwtConfigurer.decoder(customJwtDecode)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter()))
         );
-
+        httpSecurity.cors(cors -> cors.configurationSource(corsConfigurationSource()));
         httpSecurity.csrf(AbstractHttpConfigurer::disable);
 
         return httpSecurity.build();
@@ -71,15 +71,16 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowedOrigins(List.of("*"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowedOrigins(List.of("http://localhost:5173")); // Change port if needed
         configuration.setAllowCredentials(true);
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 
     @Bean
     PasswordEncoder passwordEncoder() {
