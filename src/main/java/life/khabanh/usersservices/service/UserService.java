@@ -45,7 +45,7 @@ public class UserService {
         roles.add(Role.USER.name());
 
         // Process invite code
-        if (request.getInviteCode() != null)
+        if (request.getInviteCode() != null && !request.getInviteCode().isEmpty())
             if (inviteCodeRepository.existsByCode(request.getInviteCode())){
                 var inviteCode = inviteCodeRepository.findByCode(request.getInviteCode());
                 user.setCredit(user.getCredit() + inviteCode.getCreditAdd());
