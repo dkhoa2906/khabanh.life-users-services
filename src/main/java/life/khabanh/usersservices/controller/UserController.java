@@ -28,6 +28,8 @@ import java.util.List;
 public class UserController {
     UserService userService;
 
+
+
     @Operation(summary = "Create a new user", description = "Registers a new user in the system.")
     @ApiResponses({
             @ApiResponse(
@@ -49,6 +51,27 @@ public class UserController {
                 .result(userService.createUser(request))
                 .build();
     }
+
+
+
+    @Operation(summary = "Get current user details", description = "Retrieves the authenticated user's information by access token")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "User found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = UserResponseWrapper.class))),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(example = "{ \"code\": 4101, \"message\": \"User does not exist\" }"))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized access",
+                    content = @Content(mediaType = "application/json"))
+    })
+    @GetMapping("/me")
+    public ApiFormResponse<UserResponse> getCurrentUser() {
+        return ApiFormResponse.<UserResponse>builder()
+                .result(userService.getCurrentUser())
+                .build();
+    }
+
 
     @Operation(summary = "Get user details", description = "Retrieves user information based on the user ID. The getter's access token must match the target user.")
     @ApiResponses({

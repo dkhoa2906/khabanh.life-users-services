@@ -16,6 +16,8 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -64,13 +66,22 @@ public class UserService {
         return userMapper.toUserResponse(userRepository.save(user));
     }
 
-    @PostAuthorize("returnObject.email == authentication.name")
+    @PostAuthorize("returnObject.email == authentication.name or hasRole('ADMIN')")
     public UserResponse getUser(String id) {
         return userMapper.toUserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
     }
 
-    @PreAuthorize("@userSecurity.isOwner(#id)")
+    @PostAuthorize("returnObject.email == authentication.name")
+    public UserResponse getCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String email = authentication.getName();
+
+        return userMapper.toUserResponse(userRepository.findByEmail(email)
+                .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED)));
+    }
+
+    @PreAuthorize("@userSecurity.isOwner(#id) or hasRole('ADMIN')")
     public UserResponse updateUser(String id, UserUpdateRequest request) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
