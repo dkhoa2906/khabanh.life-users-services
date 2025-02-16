@@ -109,15 +109,8 @@ public class AuthenticationService {
 
 
     public void logout(LogOutRequest request) throws ParseException, JOSEException {
-        try {
-            verifyToken(request.getToken());
-            blockToken(request.getToken());
-        } catch (ParseException | JOSEException ignored) {}
-
-        try {
-            verifyToken(request.getRefreshToken());
-            blockToken(request.getRefreshToken());
-        } catch (ParseException | JOSEException ignored) {}
+        blockToken(request.getToken());
+        blockToken(request.getRefreshToken());
     }
 
     String generateToken(User user, boolean isRefresh) {
